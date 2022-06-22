@@ -42,6 +42,54 @@ const createProject = asyncHandler(async (req, res) => {
   })
 })
 
+// @DESC   Update a project
+// @ROUTE  PUT /api/projects/:id
+// @ACCESS Private
+const updateProject = asyncHandler(async (req, res) => {
+  // Destructuring the req.body
+  const { name, description, status } = req.body
+
+  // Validate fields
+  if (!name || !description) {
+    return res.status(400).json({
+      msg: "Please enter all fields",
+    })
+  }
+
+  // Fetch the project by the ID
+  const oldProject = await Project.findById(req.params.id)
+
+  // If not found, return error
+  if (!oldProject) {
+    return res.status(404).json({
+      msg: "Project not found",
+    })
+  }
+
+  // We need to verify if the project to update, has an ID that matches the ID of the user requesting to update it
+  if (oldProject.User.toString() !== req.user.id) {
+    return res.status(401).json({
+      msg: "Not authorized",
+    })
+  }
+
+  // Update the project
+  const project = await Project.findByIdAndUpdate(
+    req.params.id,
+    {
+      name,
+      description,
+      status,
+    },
+    { new: true }
+  )
+
+  res.status(200).json({
+    msg: "Project updated successfully",
+    project,
+  })
+})
+
 // @DESC   Get all projects
 // @ROUTE  /api/projects/
 // @ACCESS Private
@@ -122,4 +170,5 @@ module.exports = {
   getProjects,
   getProject,
   deleteProject,
+  updateProject,
 }

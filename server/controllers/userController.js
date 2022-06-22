@@ -29,7 +29,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   if (isMatch) {
     return res.status(200).json({
-      message: "Login successful",
+      // message: "Login successful",
       id: checkUser._id,
       name: checkUser.name,
       email: checkUser.email,
@@ -82,7 +82,7 @@ const registerUser = asyncHandler(async (req, res) => {
   //   If successful, send back the user
   if (createUser) {
     res.status(201).json({
-      message: "User Successfully Registered",
+      // message: "User Successfully Registered",
       id: createUser._id,
       name,
       email,

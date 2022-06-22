@@ -9,6 +9,13 @@ const User = require("../models/userModel")
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
 
+  if (!email || !password) {
+    return res.status(400).json({
+      msg: "Please enter all fields",
+    })
+  }
+
+  // Check if user exists
   const checkUser = await User.findOne({ email })
 
   if (!checkUser) {
@@ -16,11 +23,13 @@ const loginUser = asyncHandler(async (req, res) => {
       message: "User does not exist",
     })
   }
+
   // Check if the password from the form matches the password in the database
   const isMatch = await bcrypt.compare(password, checkUser.password)
 
   if (isMatch) {
     return res.status(200).json({
+      message: "Login successful",
       id: checkUser._id,
       name: checkUser.name,
       email: checkUser.email,
@@ -43,7 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!name || !email || !password || !password2) {
     res.status(400).json({ message: "Please fill out all fields" })
   }
-  //    Check if email already exists
+  // Check if email already exists
   // Find user by checking email against email from body
   const userExists = await User.findOne({
     email,
@@ -64,7 +73,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, 12)
 
   //   Create the user and add to database
-  const createUser = User.create({
+  const createUser = await User.create({
     name,
     email,
     password: hashedPassword,
@@ -74,7 +83,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (createUser) {
     res.status(201).json({
       message: "User Successfully Registered",
-      _id: createUser._id,
+      id: createUser._id,
       name,
       email,
       token: generateToken(createUser._id),
@@ -84,6 +93,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 })
 
+//Generate the token
 const generateToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "5h",

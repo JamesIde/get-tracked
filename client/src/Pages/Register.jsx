@@ -1,6 +1,52 @@
 import { FaUser } from "react-icons/fa"
-
+import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { registerUser } from "../features/auth/authSlice"
+import Spinner from "../Components/Spinner"
+import { toast } from "react-toastify"
 function Register() {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const { isLoading, isError, isSuccess, message } = useSelector(
+    state => state.authReducer
+  )
+
+  const onSubmit = e => {
+    e.preventDefault()
+
+    if (!name || !email || !password || !confirmPassword) {
+      alert("Please fill in all fields")
+      return
+    }
+
+    if (password !== confirmPassword) {
+      // alert("Passwords do not match")
+      alert("Passwords do not match")
+    }
+
+    const formData = {
+      name,
+      email,
+      password,
+      password2: confirmPassword,
+    }
+
+    dispatch(registerUser(formData))
+    navigate("/")
+    toast.success(message)
+  }
+
+  if (isLoading) {
+    return <Spinner />
+  }
+
   return (
     <div>
       <div className="xl:w-6/12 lg:w-10/12 md:w-10/12 mx-auto ">
@@ -15,7 +61,7 @@ function Register() {
         </div>
         <div className="w-8/12 mx-auto mt-12">
           <div className="form-group">
-            <form>
+            <form onSubmit={onSubmit}>
               <div className="form-group-item">
                 <label htmlFor="name" className="text-xl">
                   Name
@@ -25,6 +71,10 @@ function Register() {
                   placeholder="Enter your name"
                   className="border-[1px] rounded mt-1 mb-2 w-full p-1 text-md"
                   required
+                  value={name}
+                  onChange={e => {
+                    setName(e.target.value)
+                  }}
                 />
               </div>
               <div className="form-group-item mt-4">
@@ -36,6 +86,10 @@ function Register() {
                   placeholder="Enter your email"
                   className="border-[1px] rounded mt-1 mb-2 w-full p-1 text-md"
                   required
+                  value={email}
+                  onChange={e => {
+                    setEmail(e.target.value)
+                  }}
                 />
               </div>
               <div className="form-group-item mt-4">
@@ -47,6 +101,10 @@ function Register() {
                   placeholder="Enter your password"
                   className="border-[1px] rounded mt-1 mb-2 w-full p-1 text-md"
                   required
+                  value={password}
+                  onChange={e => {
+                    setPassword(e.target.value)
+                  }}
                 />
               </div>
               <div className="form-group-item mt-4">
@@ -58,6 +116,10 @@ function Register() {
                   placeholder="Please confirm your password"
                   className="border-[1px] rounded mt-1 mb-2 w-full p-1 text-md"
                   required
+                  value={confirmPassword}
+                  onChange={e => {
+                    setConfirmPassword(e.target.value)
+                  }}
                 />
               </div>
               <button className="w-full bg-black text-white rounded p-2 mt-4">

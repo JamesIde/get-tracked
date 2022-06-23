@@ -2,7 +2,9 @@ import { FaSignInAlt } from "react-icons/fa"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { loginUser } from "../features/user/userSlice"
+import { loginUser, reset } from "../features/auth/authSlice"
+import { toast } from "react-toastify"
+// Language: javascript
 import Spinner from "../Components/Spinner"
 function Login() {
   const [email, setEmail] = useState("")
@@ -12,10 +14,10 @@ function Login() {
   const navigate = useNavigate()
 
   const { isLoading, isError, isSuccess, message } = useSelector(
-    state => state.userReducer
+    state => state.authReducer
   )
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
 
     const formData = {
@@ -23,13 +25,23 @@ function Login() {
       password,
     }
     dispatch(loginUser(formData))
+    toast.success(message)
+
     navigate("/")
     setEmail("")
     setPassword("")
   }
 
+  if (isSuccess) {
+    toast.success(message)
+  }
+
   if (isLoading) {
     return <Spinner />
+  }
+
+  if (isError) {
+    toast.error(message)
   }
 
   return (

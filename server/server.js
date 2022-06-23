@@ -18,7 +18,7 @@ dbConnect()
 app.get("/", (req, res) => {
   res.json({ message: "Welcome" })
 })
-// /api/users/routesInUserRoutes
+// /api/users/routesInUserRoutes same with projectRoutes
 app.use("/api/users", require("./routes/userRoutes"))
 app.use("/api/projects", require("./routes/projectRoutes"))
 

@@ -60,8 +60,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Throw error if user exists
   if (userExists) {
-    res.status(400)
-    throw new Error("User already exists")
+    res.status(400).json({ message: "User already exists" })
   }
 
   // Check if passwords match

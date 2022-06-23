@@ -5,6 +5,10 @@ const { protect } = require("../middleware/authMiddleware")
 const Project = require("../models/projectModel")
 const User = require("../models/userModel")
 
+// REQ.USER is the USER OBJECT from the AUTH MIDDLEWARE
+// This comes from the auth middleware
+// Req.user comes from the user found from the db that matches the decoded token
+
 // @ROUTE   /api/projects/create
 // @DESC    POST Create a project
 // @ACCESS  Private
@@ -97,13 +101,11 @@ const getProjects = asyncHandler(async (req, res) => {
   // Find the projects in the db
   // Only getting the projects where the User matches the req.user
   const projects = await Project.find({ User: req.user })
-
   if (!projects) {
     return res.status(400).json({
       msg: "No projects found",
     })
   }
-
   res.status(200).json({
     projects,
     User: req.user.name,

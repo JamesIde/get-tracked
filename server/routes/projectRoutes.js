@@ -8,23 +8,27 @@ const {
   deleteProject,
   updateProject,
 } = require("../controllers/projectController")
-const { getTickets, createTicket } = require("../controllers/ticketController")
+
+const tickets = require("./ticketRoutes")
+
 const { protect } = require("../middleware/authMiddleware")
 
 router.post("/create", protect, createProject)
 router.get("/", protect, getProjects)
 
 router
-  .route("/:id")
+  .route("/:projectId")
   .get(protect, getProject)
   .delete(protect, deleteProject)
   .put(protect, updateProject)
 
-router.get("/:id/tickets", protect, getTickets)
-router.post("/:id/tickets", protect, createTicket)
-
-// router.get("/:id", protect, getProject)
-// router.delete("/:id", protect, deleteProject)
-// router.put("/:id", protect, updateProject)
+router.use(
+  "/:projectId/tickets",
+  function (req, res, next) {
+    req.projectId = req.params.projectId
+    next()
+  },
+  tickets
+)
 
 module.exports = router

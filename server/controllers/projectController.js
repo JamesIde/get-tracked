@@ -47,9 +47,11 @@ const createProject = asyncHandler(async (req, res) => {
 })
 
 // @DESC   Update a project
-// @ROUTE  PUT /api/projects/:id
+// @ROUTE  PUT /api/projects/:projectId
 // @ACCESS Private
 const updateProject = asyncHandler(async (req, res) => {
+  // Get the project ID from req
+  const projectId = req.params.projectId
   // Destructuring the req.body
   const { name, description, status } = req.body
 
@@ -61,7 +63,7 @@ const updateProject = asyncHandler(async (req, res) => {
   }
 
   // Fetch the project by the ID
-  const oldProject = await Project.findById(req.params.id)
+  const oldProject = await Project.findById(projectId)
 
   // If not found, return error
   if (!oldProject) {
@@ -79,7 +81,7 @@ const updateProject = asyncHandler(async (req, res) => {
 
   // Update the project
   const project = await Project.findByIdAndUpdate(
-    req.params.id,
+    projectId,
     {
       name,
       description,
@@ -113,11 +115,12 @@ const getProjects = asyncHandler(async (req, res) => {
 })
 
 // @DESC   Get a single project
-// @ROUTE  GET /api/projects/:id
+// @ROUTE  GET /api/projects/:projectId
 // @ACCESS Private
 const getProject = asyncHandler(async (req, res) => {
   // Find the project by the id
-  const project = await Project.findById(req.params.id)
+  const projectId = req.projectId
+  const project = await Project.findById(projectId)
 
   if (!project) {
     return res.status(400).json({
@@ -139,11 +142,11 @@ const getProject = asyncHandler(async (req, res) => {
 })
 
 // @DESC   Delete a single project
-// @ROUTE  DELETE/api/projects/:id
+// @ROUTE  DELETE/api/projects/:projectId
 // @ACCESS Private
 const deleteProject = asyncHandler(async (req, res) => {
   // Find the project by the id
-  const project = await Project.findById(req.params.id)
+  const project = await Project.findById(req.params.projectId)
 
   if (!project) {
     return res.status(400).json({

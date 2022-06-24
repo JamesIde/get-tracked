@@ -17,17 +17,17 @@ const getTickets = asyncHandler(async (req, res) => {
   //   If the requesting user ID does not match the project User ID,
   if (req.user.id !== project.User.toString()) {
     return res.status(401).json({ message: "Invalid request" })
-  } else {
-    // We find the tickets associated with the project
-    const tickets = await Ticket.find({ Project: projectId })
-    if (!tickets || tickets.length === 0) {
-      return res.status(404).json({ message: "No tickets found" })
-    } else {
-      req.projectId = req.params.id
-
-      res.status(200).json(tickets)
-    }
   }
+
+  // We find the tickets associated with the project based in its ID
+  const tickets = await Ticket.find({ Project: projectId })
+
+  //   If there are no tickets, we return an error
+  if (!tickets || tickets.length === 0) {
+    return res.status(404).json({ message: "No tickets found" })
+  }
+
+  res.status(200).json(tickets)
 })
 
 // @DESC   Get an individual ticket
@@ -45,19 +45,17 @@ const getTicket = asyncHandler(async (req, res) => {
   }
 
   //   If the requesting user ID does not match the project User ID, return error
-
   if (req.user.id !== project.User.toString()) {
     return res.status(401).json({ message: "Invalid request" })
   }
 
-  //   Find the ticket based on the id
+  //   Find the ticket for that project based on the id
   const ticket = await Ticket.findById(ticketId)
 
-  if (ticket) {
-    res.status(200).json(ticket)
-  } else {
+  if (!ticket) {
     return res.status(404).json({ message: "Ticket not found" })
   }
+  res.status(200).json(ticket)
 })
 
 // @DESC   Create a ticket associated with a project
@@ -76,27 +74,28 @@ const createTicket = asyncHandler(async (req, res) => {
   //   If the requesting user ID does not match the project User ID, return error
   if (req.user.id !== project.User.toString()) {
     return res.status(401).json({ message: "Invalid request" })
-  } else {
-    // Validate input and create ticket
-    if (!title || !description) {
-      return res.status(400).json({
-        msg: "Please enter all fields",
-      })
-    }
-    // Create the ticket
-    const newTicket = await Ticket.create({
-      User: req.user.id,
-      Project: projectId,
-      title,
-      description,
-      status,
+  }
+
+  // Validate input and create ticket
+  if (!title || !description) {
+    return res.status(400).json({
+      msg: "Please enter all fields",
     })
-    if (newTicket) {
-      res.status(201).json({
-        message: "Ticket created successfully",
-        ticket: newTicket,
-      })
-    }
+  }
+  // Create the ticket
+  const newTicket = await Ticket.create({
+    User: req.user.id,
+    Project: projectId,
+    title,
+    description,
+    status,
+  })
+  //   If ticket is created, return the ticket
+  if (newTicket) {
+    res.status(201).json({
+      message: "Ticket created successfully",
+      ticket: newTicket,
+    })
   }
 })
 
@@ -121,7 +120,6 @@ const updateTicket = asyncHandler(async (req, res) => {
   }
 
   // Update the ticket
-
   const { title, description, status } = req.body
 
   const updatedTicket = await Ticket.findByIdAndUpdate(

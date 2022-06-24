@@ -32,10 +32,6 @@ function Login() {
     setPassword("")
   }
 
-  if (isSuccess) {
-    toast.success(message)
-  }
-
   if (isLoading) {
     return <Spinner />
   }

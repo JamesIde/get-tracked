@@ -10,11 +10,15 @@ function Header() {
   const dispatch = useDispatch()
   const handleLogout = e => {
     dispatch(logoutUser())
-    toast.success("Logged out successfully")
+    // toast.success("Logged out successfully")
+    dispatch(reset())
   }
 
   if (isLoading) {
     return <Spinner />
+  }
+  if (isSuccess) {
+    // dispatch(reset())
   }
 
   return (

@@ -41,7 +41,7 @@ export const registerUser = createAsyncThunk(
   }
 )
 
-export const logoutUser = createAsyncThunk("/user/logout", async thunkAPI => {
+export const logoutUser = createAsyncThunk("auth/logout", async thunkAPI => {
   localStorage.removeItem("user")
 })
 
@@ -94,6 +94,12 @@ const authSlice = createSlice({
       state.isError = true
       state.isSuccess = false
       state.message = action.payload
+    })
+    builder.addCase(logoutUser.pending, (state, action) => {
+      state.isLoading = true
+      state.isError = false
+      state.isSuccess = false
+      state.message = ""
     })
     builder.addCase(logoutUser.fulfilled, (state, action) => {
       state.user = null

@@ -6,7 +6,7 @@ import Login from "./Pages/Login"
 import Register from "./Pages/Register"
 import CreateProject from "./Pages/CreateProject"
 import Projects from "./Pages/Projects"
-import { ToastContainer, toast } from "react-toastify"
+import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 function App() {

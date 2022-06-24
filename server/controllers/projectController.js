@@ -106,10 +106,10 @@ const getProjects = asyncHandler(async (req, res) => {
       msg: "No projects found",
     })
   }
-  res.status(200).json({
-    projects,
-    User: req.user.name,
-  })
+  res.status(200).json(
+    projects
+    // User: req.user.name,
+  )
 })
 
 // @DESC   Get a single project

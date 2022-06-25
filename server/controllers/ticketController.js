@@ -1,8 +1,6 @@
 const asyncHandler = require("express-async-handler")
-const User = require("../models/userModel")
 const Project = require("../models/projectModel")
 const Ticket = require("../models/ticketModel")
-const e = require("express")
 
 // @DESC   Get all tickets associated with a project
 // @ROUTE  GET /api/projects/:projectId/tickets

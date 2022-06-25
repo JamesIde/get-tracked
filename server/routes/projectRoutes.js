@@ -13,7 +13,7 @@ const tickets = require("./ticketRoutes")
 
 const { protect } = require("../middleware/authMiddleware")
 
-router.post("/create", protect, createProject)
+router.post("/", protect, createProject)
 router.get("/", protect, getProjects)
 
 router
@@ -25,6 +25,9 @@ router
 router.use(
   "/:projectId/tickets",
   function (req, res, next) {
+    // This creates a req.object that contains the project id
+    // It passes it to the child router, which is tickets
+    // Allows access to any projectID to get tickets from
     req.projectId = req.params.projectId
     next()
   },

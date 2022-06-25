@@ -1,9 +1,6 @@
 const express = require("express")
-const router = express.Router()
 const asyncHandler = require("express-async-handler")
-const { protect } = require("../middleware/authMiddleware")
 const Project = require("../models/projectModel")
-const User = require("../models/userModel")
 
 // REQ.USER is the USER OBJECT from the AUTH MIDDLEWARE
 // This comes from the auth middleware
@@ -119,7 +116,7 @@ const getProjects = asyncHandler(async (req, res) => {
 // @ACCESS Private
 const getProject = asyncHandler(async (req, res) => {
   // Find the project by the id
-  const projectId = req.projectId
+  const projectId = req.params.projectId
   const project = await Project.findById(projectId)
 
   if (!project) {
@@ -131,7 +128,6 @@ const getProject = asyncHandler(async (req, res) => {
   // We need to check if the project returned from the database
   // Has the same user ID,
   // As the user ID in the req.user, who is requesting it
-
   if (project.User.toString() !== req.user.id) {
     return res.status(401).json({
       msg: "Not authorized",

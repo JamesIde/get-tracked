@@ -6,6 +6,7 @@ import Login from "./Pages/Login"
 import Register from "./Pages/Register"
 import CreateProject from "./Pages/CreateProject"
 import Projects from "./Pages/Projects"
+import Project from "./Pages/Project"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/createProject" element={<CreateProject />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:projectId" element={<Project />} />
         </Routes>
       </Router>
       <ToastContainer />

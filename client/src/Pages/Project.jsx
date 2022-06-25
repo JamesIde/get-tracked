@@ -1,4 +1,5 @@
 import TicketItem from "../Components/TicketItem"
+import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { useParams } from "react-router-dom"
@@ -51,7 +52,9 @@ function Project() {
         <button class="bg-gray-100 border-2 font-bold p-1 mt-4 px-3 rounded inline-flex items-center hover:bg-gray-300 duration-500">
           <FaPencilAlt size={20} className="pt-1 mb-1" />
 
-          <span>Create Ticket</span>
+          <Link to={`/${project._id}/createticket`}>
+            <span>Create Ticket</span>
+          </Link>
         </button>
       </div>
       <div className="mx-auto mt-4 mb-4">

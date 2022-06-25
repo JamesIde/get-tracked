@@ -10,8 +10,20 @@ const getTickets = async (projectId, token) => {
   return response
 }
 
+const addTicket = async (ticketData, projectId, token) => {
+  const response = await axios.post(
+    `${API_URL}/${projectId}/tickets`,
+    ticketData,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  )
+  return response
+}
+
 const ticketService = {
   getTickets,
+  addTicket,
 }
 
 export default ticketService

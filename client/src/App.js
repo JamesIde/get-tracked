@@ -9,6 +9,7 @@ import Projects from "./Pages/Projects"
 import Project from "./Pages/Project"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import CreateTicket from "./Pages/CreateTicket"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/createProject" element={<CreateProject />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<Project />} />
+          <Route path="/:projectId/createticket" element={<CreateTicket />} />
         </Routes>
       </Router>
       <ToastContainer />

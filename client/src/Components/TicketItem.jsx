@@ -1,7 +1,7 @@
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa"
 function TicketItem({ ticket }) {
   return (
-    <div className="border-[1px] border-gray-400 rounded bg-gray-100">
+    <div className="border-[1px] border-gray-400 rounded bg-gray-100 mt-2 mb-1">
       <div className="flex flex-row justify-between m-1">
         <h1 className="font-bold text-lg mb-1">{ticket.title}</h1>
         <p className="m-1">

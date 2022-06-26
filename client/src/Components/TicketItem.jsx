@@ -1,7 +1,28 @@
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  deleteTicket,
+  getTickets,
+  clearTicket,
+} from "../features/tickets/ticketSlice"
+
+import Spinner from "../Components/Spinner"
+
 function TicketItem({ ticket }) {
+  const { Loading, Success } = useSelector(state => state.ticketReducer)
+  const { user } = useSelector(state => state.authReducer)
+  const dispatch = useDispatch()
+  const handleClick = ticketId => {
+    dispatch(deleteTicket(ticketId))
+  }
+
+  if (Loading) {
+    return <Spinner />
+  }
+  //dispatch(getTickets(user.token))
+
   return (
-    <div className="border-[1px] border-gray-400 rounded bg-gray-100 mt-2 mb-1">
+    <div className="border-[1px] border-gray-400 rounded bg-gray-100 mt-2 mb-1 mx-1">
       <div className="flex flex-row justify-between m-1">
         <h1 className="font-bold text-lg mb-1">{ticket.title}</h1>
         <p className="m-1">
@@ -9,8 +30,8 @@ function TicketItem({ ticket }) {
         </p>
       </div>
       <div className="flex flex-row justify-between">
-        <p className="m-1">{ticket.description}</p>
-        <div className="m-1">
+        <p className="m-1 xl:w-3/4">{ticket.description}</p>
+        <div className="m-1 p-1 px-2 rounded">
           <p>Status: {ticket.status}</p>
         </div>
       </div>
@@ -19,7 +40,10 @@ function TicketItem({ ticket }) {
           <FaPencilAlt size={15} className="pt-1 mb-1" />
           <span>Edit Ticket</span>
         </button>
-        <button class="bg-red-500 p-1 px-2 font-bold rounded inline-flex items-center hover:bg-red-900 duration-500">
+        <button
+          class="bg-red-600 p-1 px-2 font-bold rounded inline-flex items-center hover:bg-red-900 duration-500"
+          onClick={() => handleClick(ticket._id)}
+        >
           <FaTrashAlt size={15} className="pt-1 mb-1" />
           <span>Delete Ticket</span>
         </button>

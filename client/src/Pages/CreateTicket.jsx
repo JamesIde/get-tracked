@@ -1,18 +1,19 @@
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useState, useEffect } from "react"
 import { createTicket } from "../features/tickets/ticketSlice"
 import { toast } from "react-toastify"
 import { useParams } from "react-router-dom"
 import { FaPencilAlt, FaProjectDiagram } from "react-icons/fa"
-import ticketService from "../features/tickets/ticketService"
+import { reset } from "../features/projects/projectSlice"
+import Spinner from "../Components/Spinner"
 function CreateTicket() {
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
+  const [priority, setPriority] = useState()
 
   const projectId = useParams().projectId
 
-  const { user } = useSelector(state => state.authReducer)
   const { Loading, Error, Message, Success } = useSelector(
     state => state.ticketReducer
   )
@@ -22,15 +23,20 @@ function CreateTicket() {
   const handleSubmit = async e => {
     e.preventDefault()
 
-    if (!title || !description) {
+    if (!title || !description || !priority || priority === undefined) {
       toast.error("Please fill in all fields")
     }
     const ticketData = {
       title,
       description,
+      priority,
     }
     dispatch(createTicket(ticketData))
     navigate(`/projects/${projectId}`)
+  }
+
+  if (Loading) {
+    return <Spinner />
   }
 
   return (
@@ -79,13 +85,38 @@ function CreateTicket() {
                   }}
                 />
               </div>
-
+              <div className="form-group-item mt-4"></div>
+              <label htmlFor="ticketPriority" className="text-xl">
+                Ticket Priority
+              </label>
+              <select
+                name="ticketPriority"
+                id="priority"
+                className="w-full border-[1px] p-1 mb-2 mt-1 rounded"
+                value={priority}
+                onChange={e => {
+                  setPriority(e.target.value)
+                }}
+              >
+                <option value="">Select a priority</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
               <button
                 className="w-full bg-black text-white rounded p-2 mt-4"
                 type="submit"
               >
                 <p className="text-xl">Create Ticket</p>
               </button>
+              <Link to={`/projects/${projectId}`}>
+                <button
+                  className="w-full bg-white text-black rounded p-2 mt-4 border-2 border-black"
+                  type="submit"
+                >
+                  <p className="text-xl">Cancel</p>
+                </button>
+              </Link>
             </form>
           </div>
         </div>

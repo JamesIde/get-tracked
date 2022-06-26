@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { createProject, reset } from "../features/projects/projectSlice"
+import Spinner from "../Components/Spinner"
 
 function CreateProject() {
   const { projects, isLoading, isError, message, isSuccess } = useSelector(
@@ -19,15 +20,15 @@ function CreateProject() {
   const handleSubmit = e => {
     e.preventDefault()
 
-    if (!name || !description) {
-      toast.error("Please fill in all fields")
-    }
-    if (name.trim().length < 5) {
-      toast.error("Project name must be at least 5 characters")
-    }
-    if (description.trim().length < 10) {
-      toast.error("Project description must be at least 10 characters")
-    }
+    // if (!name || !description) {
+    //   toast.error("Please fill in all fields")
+    // }
+    // if (name.trim().length < 5) {
+    //   toast.error("Project name must be at least 5 characters")
+    // }
+    // if (description.trim().length < 10) {
+    //   toast.error("Project description must be at least 10 characters")
+    // }
     // Construct the project object
     const projectData = {
       name,
@@ -35,6 +36,7 @@ function CreateProject() {
     }
     // send to slice
     dispatch(createProject(projectData))
+    navigate("/projects")
   }
 
   return (

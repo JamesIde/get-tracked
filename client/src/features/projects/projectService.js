@@ -22,10 +22,19 @@ const createProject = async (projectData, token) => {
   })
   return response
 }
+
+const deleteProject = async (projectId, token) => {
+  const response = await axios.delete(`${API_URL}/${projectId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return response
+}
+
 const projectService = {
   getProjects,
   createProject,
   getSingleProject,
+  deleteProject,
 }
 
 export default projectService

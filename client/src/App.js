@@ -10,6 +10,7 @@ import Project from "./Pages/Project"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import CreateTicket from "./Pages/CreateTicket"
+import Footer from "./Components/Footer"
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/:projectId/createticket" element={<CreateTicket />} />
         </Routes>
       </Router>
+      {/* <Footer /> */}
       <ToastContainer />
     </>
   )

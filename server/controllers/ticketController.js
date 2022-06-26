@@ -61,7 +61,7 @@ const getTicket = asyncHandler(async (req, res) => {
 // @ACCESS Private
 const createTicket = asyncHandler(async (req, res) => {
   // Destructure the body for validation
-  const { title, description, status } = req.body
+  const { title, description, status, priority } = req.body
 
   // Get the project ID
   const projectId = req.projectId
@@ -87,6 +87,7 @@ const createTicket = asyncHandler(async (req, res) => {
     title,
     description,
     status,
+    priority,
   })
   //   If ticket is created, return the ticket
   if (newTicket) {
@@ -118,7 +119,7 @@ const updateTicket = asyncHandler(async (req, res) => {
   }
 
   // Update the ticket
-  const { title, description, status } = req.body
+  const { title, description, status, priority } = req.body
 
   const updatedTicket = await Ticket.findByIdAndUpdate(
     ticketId,
@@ -126,6 +127,7 @@ const updateTicket = asyncHandler(async (req, res) => {
       title,
       description,
       status,
+      priority,
     },
     { new: true }
   )
@@ -159,6 +161,7 @@ const deleteTicket = asyncHandler(async (req, res) => {
   await Ticket.findByIdAndDelete(ticketId)
   res.status(200).json({
     msg: "Ticket deleted successfully",
+    ticketId: ticketId,
   })
 })
 

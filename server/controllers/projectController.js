@@ -1,6 +1,7 @@
 const express = require("express")
 const asyncHandler = require("express-async-handler")
 const Project = require("../models/projectModel")
+const Ticket = require("../models/ticketModel")
 
 // REQ.USER is the USER OBJECT from the AUTH MIDDLEWARE
 // This comes from the auth middleware
@@ -137,7 +138,7 @@ const getProject = asyncHandler(async (req, res) => {
   res.status(200).json(project)
 })
 
-// @DESC   Delete a single project
+// @DESC   Delete a single project and associated tickets
 // @ROUTE  DELETE/api/projects/:projectId
 // @ACCESS Private
 const deleteProject = asyncHandler(async (req, res) => {
@@ -158,12 +159,18 @@ const deleteProject = asyncHandler(async (req, res) => {
     return res.status(401).json({
       msg: "Not authorized",
     })
-  } else {
-    await project.remove()
-    res.status(200).json({
-      msg: "Project deleted successfully",
-    })
   }
+  // Remove tickets associated with the project if any
+  // const tickets = await Ticket.find({ project: req.params.projectId })
+  // if (tickets) {
+  //   await Ticket.deleteMany({ project: req.params.projectId })
+  // }
+
+  await project.remove()
+  res.status(200).json({
+    msg: "Project deleted successfully",
+    projectId: req.params.projectId,
+  })
 })
 
 module.exports = {

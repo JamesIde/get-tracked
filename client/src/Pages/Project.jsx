@@ -15,6 +15,7 @@ function Project() {
   const { tickets, Loading, Error, Message } = useSelector(
     state => state.ticketReducer
   )
+
   const { projectId } = useParams()
   const dispatch = useDispatch()
 
@@ -23,7 +24,7 @@ function Project() {
     dispatch(getTickets(projectId))
   }, [])
 
-  if (isLoading || Loading) {
+  if (isLoading) {
     return <Spinner />
   }
 
@@ -49,18 +50,24 @@ function Project() {
       </div>
       <div className="flex flex-row justify-between">
         <h5 className=" mt-4 font-bold text-xl">Current Tickets</h5>
-        <button class="bg-gray-100 border-2 font-bold p-1 mt-4 px-3 rounded inline-flex items-center hover:bg-gray-300 duration-500">
-          <FaPencilAlt size={20} className="pt-1 mb-1" />
+        <Link to={`/${project._id}/createticket`}>
+          <button class="bg-gray-100 border-2 font-bold p-1 mt-4 px-3 rounded inline-flex items-center hover:bg-gray-300 duration-500">
+            <FaPencilAlt size={20} className="pt-1 mb-1" />
 
-          <Link to={`/${project._id}/createticket`}>
             <span>Create Ticket</span>
-          </Link>
-        </button>
+          </button>
+        </Link>
       </div>
       <div className="mx-auto mt-4 mb-4">
-        {tickets.map(ticket => {
-          return <TicketItem key={ticket._id} ticket={ticket} />
-        })}
+        {tickets.length === 0 ? (
+          <p className="text-center font-bold">No Tickets Found</p>
+        ) : (
+          <>
+            {tickets.map(ticket => {
+              return <TicketItem key={ticket._id} ticket={ticket} />
+            })}
+          </>
+        )}
       </div>
     </div>
   )

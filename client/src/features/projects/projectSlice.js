@@ -29,6 +29,7 @@ export const getSngProject = createAsyncThunk(
 
     try {
       const response = await projectService.getSingleProject(projectId, token)
+      localStorage.setItem("editProject", JSON.stringify(response.data))
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message)
@@ -42,6 +43,25 @@ export const createProject = createAsyncThunk(
     try {
       const token = thunkAPI.getState().authReducer.user.token
       const response = await projectService.createProject(projectData, token)
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message)
+    }
+  }
+)
+
+export const updateProject = createAsyncThunk(
+  "projects/updateProject",
+  async (projectData, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().authReducer.user.token
+      const projectId = thunkAPI.getState().projectReducer.project._id
+
+      const response = await projectService.updateProject(
+        projectId,
+        projectData,
+        token
+      )
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message)
@@ -134,6 +154,22 @@ const projectSlice = createSlice({
       )
     })
     builder.addCase(deleteProject.rejected, (state, action) => {
+      state.isLoading = false
+      state.isError = true
+      state.isSuccess = false
+      state.message = action.payload
+    })
+    builder.addCase(updateProject.pending, state => {
+      state.isLoading = true
+    })
+    builder.addCase(updateProject.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isError = false
+      state.isSuccess = true
+      state.message = action.payload.msg
+      state.project = action.payload.project
+    })
+    builder.addCase(updateProject.rejected, (state, action) => {
       state.isLoading = false
       state.isError = true
       state.isSuccess = false

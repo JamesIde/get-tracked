@@ -17,6 +17,7 @@ function Projects() {
     if (user) {
       dispatch(getProjects(user.token))
       dispatch(clearTicket())
+      localStorage.removeItem("editProject")
     }
   }, [user, dispatch])
 

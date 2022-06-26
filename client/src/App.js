@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import CreateTicket from "./Pages/CreateTicket"
 import Footer from "./Components/Footer"
+import EditProject from "./Pages/EditProject"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/:projectId" element={<Project />} />
           <Route path="/:projectId/createticket" element={<CreateTicket />} />
+          <Route path="/:projectId/edit" element={<EditProject />} />
         </Routes>
       </Router>
       {/* <Footer /> */}

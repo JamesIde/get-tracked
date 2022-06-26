@@ -101,7 +101,7 @@ const getProjects = asyncHandler(async (req, res) => {
   // Find the projects in the db
   // Only getting the projects where the User matches the req.user
   const projects = await Project.find({ User: req.user })
-  if (!projects) {
+  if (!projects || projects.length === 0) {
     return res.status(400).json({
       msg: "No projects found",
     })
@@ -145,7 +145,7 @@ const deleteProject = asyncHandler(async (req, res) => {
   // Find the project by the id
   const project = await Project.findById(req.params.projectId)
 
-  if (!project) {
+  if (!project || project === null) {
     return res.status(400).json({
       msg: "Project not found",
     })
@@ -166,11 +166,17 @@ const deleteProject = asyncHandler(async (req, res) => {
   //   await Ticket.deleteMany({ project: req.params.projectId })
   // }
 
-  await project.remove()
-  res.status(200).json({
-    msg: "Project deleted successfully",
-    projectId: req.params.projectId,
-  })
+  try {
+    await project.remove()
+    res.status(200).json({
+      msg: "Project deleted successfully",
+      projectId: req.params.projectId,
+    })
+  } catch (error) {
+    res.status(500).json({
+      msg: "Error deleting project",
+    })
+  }
 })
 
 module.exports = {

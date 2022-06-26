@@ -10,6 +10,9 @@ function Home() {
         <h1 className="font-bold text-3xl text-center text-gray-500 mt-5 mb-3">
           Project Manager App
         </h1>
+        <p className="text-center">
+          A project manager or bug tracker with tickets and comments
+        </p>
       </div>
 
       <div className="w-3/4 mx-auto text-center xl:mt-16 lg:mt-16 md:mt-14">

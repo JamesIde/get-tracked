@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { getSngProject, updateProject } from "../features/projects/projectSlice"
 import { Link } from "react-router-dom"
 import Spinner from "../Components/Spinner"
-import projectService from "../features/projects/projectService"
+import { toast } from "react-toastify"
 function EditProject() {
   const projectId = useParams().projectId
   const dispatch = useDispatch()
@@ -57,8 +57,8 @@ function EditProject() {
     }
 
     dispatch(updateProject(editProject))
-    // await projectService.updateProject(projectId, editProject, user.token)
     navigate(`/projects/${projectId}`)
+    toast.success("Project Updated Successfully")
   }
 
   return (

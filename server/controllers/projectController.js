@@ -48,8 +48,6 @@ const createProject = asyncHandler(async (req, res) => {
 // @ROUTE  PUT /api/projects/:projectId
 // @ACCESS Private
 const updateProject = asyncHandler(async (req, res) => {
-  // Get the project ID from req
-  const projectId = req.params.projectId
   // Destructuring the req.body
   const { name, description, status } = req.body
 
@@ -60,6 +58,8 @@ const updateProject = asyncHandler(async (req, res) => {
     })
   }
 
+  // Get the project ID from req
+  const projectId = req.params.projectId
   // Fetch the project by the ID
   const oldProject = await Project.findById(projectId)
 
@@ -98,8 +98,7 @@ const updateProject = asyncHandler(async (req, res) => {
 // @ROUTE  /api/projects/
 // @ACCESS Private
 const getProjects = asyncHandler(async (req, res) => {
-  // Find the projects in the db
-  // Only getting the projects where the User matches the req.user
+  // Find the projects in the db that match requesting user
   const projects = await Project.find({ User: req.user })
   if (!projects || projects.length === 0) {
     return res.status(400).json({
@@ -160,12 +159,8 @@ const deleteProject = asyncHandler(async (req, res) => {
       msg: "Not authorized",
     })
   }
-  // Remove tickets associated with the project if any
-  // const tickets = await Ticket.find({ project: req.params.projectId })
-  // if (tickets) {
-  //   await Ticket.deleteMany({ project: req.params.projectId })
-  // }
 
+  // Delete the project
   try {
     await project.remove()
     res.status(200).json({

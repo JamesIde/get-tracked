@@ -63,6 +63,12 @@ const createTicket = asyncHandler(async (req, res) => {
   // Destructure the body for validation
   const { title, description, status, priority } = req.body
 
+  // Validate input and create ticket
+  if (!title || !description) {
+    return res.status(400).json({
+      msg: "Please enter all fields",
+    })
+  }
   // Get the project ID
   const projectId = req.projectId
 
@@ -74,12 +80,6 @@ const createTicket = asyncHandler(async (req, res) => {
     return res.status(401).json({ message: "Invalid request" })
   }
 
-  // Validate input and create ticket
-  if (!title || !description) {
-    return res.status(400).json({
-      msg: "Please enter all fields",
-    })
-  }
   // Create the ticket
   const newTicket = await Ticket.create({
     User: req.user.id,
@@ -89,6 +89,7 @@ const createTicket = asyncHandler(async (req, res) => {
     status,
     priority,
   })
+
   //   If ticket is created, return the ticket
   if (newTicket) {
     res.status(201).json({
@@ -102,6 +103,15 @@ const createTicket = asyncHandler(async (req, res) => {
 // @ROUTE  PUT /api/projects/:projectId/tickets/:ticketId
 // @ACCESS Private
 const updateTicket = asyncHandler(async (req, res) => {
+  // Update the ticket
+  const { title, description, status, priority } = req.body
+
+  if (!title || !description) {
+    return res.status(400).json({
+      msg: "Please enter all fields",
+    })
+  }
+
   const ticketId = req.params.ticketId
 
   const oldTicket = await Ticket.findById(ticketId)
@@ -117,9 +127,6 @@ const updateTicket = asyncHandler(async (req, res) => {
       msg: "Invalid request",
     })
   }
-
-  // Update the ticket
-  const { title, description, status, priority } = req.body
 
   const updatedTicket = await Ticket.findByIdAndUpdate(
     ticketId,

@@ -35,6 +35,13 @@ const getComments = asyncHandler(async (req, res) => {
 // @ROUTE  POST /api/projects/:projectId/tickets/:ticketId/comments/create
 // @ACCESS Private
 const addComment = asyncHandler(async (req, res) => {
+  // // Validate a comment has a body
+  const { content } = req.body
+
+  if (!content) {
+    return res.status(400).json({ message: "Please add a comment" })
+  }
+
   // Find user and ticket ID from params
   const ticketUser = await User.findById(req.user).select("-password")
   const ticketId = req.ticketId
@@ -45,13 +52,6 @@ const addComment = asyncHandler(async (req, res) => {
   // If the User is not the owner of the ticket, return error
   if (ticketUser.id !== ticket.User.toString()) {
     return res.status(401).json({ message: "Invalid request" })
-  }
-
-  // // Validate a comment has a body
-  const { content } = req.body
-
-  if (!content) {
-    return res.status(400).json({ message: "Please add a comment" })
   }
 
   const createTicket = await Comment.create({

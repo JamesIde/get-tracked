@@ -6,6 +6,7 @@ import { FaPencilAlt } from "react-icons/fa"
 import Spinner from "../Components/Spinner"
 import ProjectItem from "../Components/ProjectItem"
 import { clearTicket } from "../features/tickets/ticketSlice"
+
 function Projects() {
   const dispatch = useDispatch()
   const { user } = useSelector(state => state.authReducer)

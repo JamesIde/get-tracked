@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom"
 import { getSngProject } from "../features/projects/projectSlice"
 import { getTickets } from "../features/tickets/ticketSlice"
 import Spinner from "../Components/Spinner"
+import { clearComments } from "../features/comments/commentSlice"
+
 import { FaPencilAlt } from "react-icons/fa"
 function Project() {
   const { project, isLoading, isError, message } = useSelector(
@@ -23,6 +25,7 @@ function Project() {
     dispatch(getSngProject(projectId))
     localStorage.setItem("editProject", JSON.stringify(project))
     dispatch(getTickets(projectId))
+    dispatch(clearComments())
   }, [])
 
   if (isLoading) {

@@ -16,8 +16,25 @@ const getAllComments = async (ticketId, projectId, token) => {
   return response
 }
 
+const createComment = async (ticketId, projectId, comment, token) => {
+  // call backend
+  const response = await axios.post(
+    `${API_URL}/${projectId}/tickets/${ticketId}/comments/create`,
+    {
+      content: comment,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+  return response
+}
+
 const commentService = {
   getAllComments,
+  createComment,
 }
 
 export default commentService

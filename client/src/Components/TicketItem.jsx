@@ -20,7 +20,7 @@ function TicketItem({ ticket, projectId }) {
   }
 
   return (
-    <div className="border-[1px] border-gray-400 rounded bg-gray-100 mt-2 mb-1 mx-1">
+    <div className="border-[1px] border-gray-400 rounded bg-gray-50 mt-2 mb-1 mx-1">
       <div className="flex flex-row justify-between m-1">
         <h1 className="font-bold text-lg mb-1">{ticket.title}</h1>
         <p className="m-1">
@@ -36,8 +36,8 @@ function TicketItem({ ticket, projectId }) {
       <div className="flex justify-between m-1">
         <Link to={`ticket/${ticket._id}`}>
           <button class="bg-gray-400 hover:bg-gray-600 duration-500 p-1 px-2 font-bold rounded inline-flex items-center ">
-            <FaPencilAlt size={15} className="pt-1 mb-1" />
-            <span>Edit Ticket</span>
+            <FaPencilAlt size={15} className="pt-1 mb-1 mr-1" />
+            <span>View Ticket</span>
           </button>
         </Link>
         <button

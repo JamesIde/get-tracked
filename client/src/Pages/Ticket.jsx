@@ -1,22 +1,38 @@
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { getSingleTicket } from "../features/tickets/ticketSlice"
-import { getComments } from "../features/comments/commentSlice"
+import { getComments, createComment } from "../features/comments/commentSlice"
 import Spinner from "../Components/Spinner"
 import { Link } from "react-router-dom"
+import commentService from "../features/comments/commentService"
 function Ticket() {
   const ticketId = useParams().ticketId
   const dispatch = useDispatch()
-  const { ticket, Loading, Success } = useSelector(state => state.ticketReducer)
+  const { ticket, Success } = useSelector(state => state.ticketReducer)
   const { project } = useSelector(state => state.projectReducer)
-  const { comments } = useSelector(state => state.commentReducer)
+  const { comments, isLoading } = useSelector(state => state.commentReducer)
+  const [comment, setComment] = useState("")
+
   useEffect(() => {
     dispatch(getSingleTicket(ticketId))
     dispatch(getComments(ticketId))
   }, [dispatch])
 
-  if (Loading) {
+  const handleClick = () => {
+    setComment("")
+  }
+
+  const handleCreateClick = () => {
+    if (comment === "" || comment === undefined) {
+      alert("Please enter a comment")
+    } else {
+      dispatch(createComment(comment))
+      handleClick()
+    }
+  }
+
+  if (isLoading) {
     return <Spinner />
   }
 
@@ -72,13 +88,21 @@ function Ticket() {
             id="content"
             cols="50"
             rows="5"
-            className="border-2 rounded "
+            className="border-2 rounded p-1"
+            value={comment}
+            onChange={e => setComment(e.target.value)}
           ></textarea>
           <div className="flex flex-row ">
-            <p className="bg-red-700 hover:bg-red-900 hover:cursor-pointer duration-500 text-white font-bold  px-2 py-2 m-1 rounded w-fit">
-              Clear
+            <p
+              className="bg-red-700 hover:bg-red-900 hover:cursor-pointer duration-500 text-white font-bold  px-2 py-2 mr-2 rounded w-fit"
+              onClick={handleClick}
+            >
+              Cancel
             </p>
-            <p className="bg-purple-500 hover:bg-purple-900 hover:cursor-pointer duration-500 text-white font-bold px-3 py-2 m-1 rounded w-fit">
+            <p
+              className="bg-purple-500 hover:bg-purple-900 hover:cursor-pointer duration-500 text-white font-bold px-2 py-2  rounded w-fit"
+              onClick={handleCreateClick}
+            >
               Add
             </p>
           </div>

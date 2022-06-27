@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import projectService from "./projectService"
 
+const project = localStorage.getItem("editProject")
 const initialState = {
   projects: [],
-  project: [],
+  project: project ? JSON.parse(project) : null,
   isLoading: false,
   isError: false,
   isSuccess: false,

@@ -26,6 +26,9 @@ const getComments = asyncHandler(async (req, res) => {
   if (!comments || comments.length === 0) {
     return res.status(404).json({ message: "No comments found" })
   }
+
+  // If there are comments, we return them
+  return res.status(200).json(comments)
 })
 
 // @DESC   Create a comment associated with a ticket

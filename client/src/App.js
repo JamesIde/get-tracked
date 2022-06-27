@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css"
 import CreateTicket from "./Pages/CreateTicket"
 import Footer from "./Components/Footer"
 import EditProject from "./Pages/EditProject"
+import Ticket from "./Pages/Ticket"
 
 function App() {
   return (
@@ -27,6 +28,10 @@ function App() {
           <Route path="/projects/:projectId" element={<Project />} />
           <Route path="/:projectId/createticket" element={<CreateTicket />} />
           <Route path="/:projectId/edit" element={<EditProject />} />
+          <Route
+            path="/projects/:projectId/ticket/:ticketId"
+            element={<Ticket />}
+          />
         </Routes>
       </Router>
       {/* <Footer /> */}

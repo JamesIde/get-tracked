@@ -2,9 +2,11 @@ import ticketService from "./ticketService"
 
 const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit")
 
+const ticket = localStorage.getItem("ticket")
+
 const initialState = {
   tickets: [],
-  ticket: [],
+  ticket: ticket ? JSON.parse(ticket) : null,
   Loading: false,
   Error: false,
   Success: false,
@@ -35,6 +37,21 @@ const ticketSlice = createSlice({
       state.Success = true
     })
     builders.addCase(getTickets.rejected, (state, action) => {
+      state.Loading = false
+      state.Error = true
+      state.Success = false
+      state.Message = action.payload
+    })
+    builders.addCase(getSingleTicket.pending, state => {
+      state.Loading = true
+    })
+    builders.addCase(getSingleTicket.fulfilled, (state, action) => {
+      state.ticket = action.payload
+      state.Loading = false
+      state.Error = false
+      state.Success = true
+    })
+    builders.addCase(getSingleTicket.rejected, (state, action) => {
       state.Loading = false
       state.Error = true
       state.Success = false
@@ -84,6 +101,21 @@ export const getTickets = createAsyncThunk(
     try {
       const token = thunkAPI.getState().authReducer.user.token
       const response = await ticketService.getTickets(projectId, token)
+      return response.data
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message)
+    }
+  }
+)
+
+export const getSingleTicket = createAsyncThunk(
+  "ticket/getSingleTicket",
+  async (ticketId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().authReducer.user.token
+      const projectId = thunkAPI.getState().projectReducer.project._id
+      const response = await ticketService.getTicket(ticketId, projectId, token)
+      localStorage.setItem("ticket", JSON.stringify(response.data))
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message)

@@ -10,6 +10,16 @@ const getTickets = async (projectId, token) => {
   return response
 }
 
+const getTicket = async (ticketId, projectId, token) => {
+  const response = await axios.get(
+    `${API_URL}/${projectId}/tickets/${ticketId}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  )
+  return response
+}
+
 const addTicket = async (ticketData, projectId, token) => {
   const response = await axios.post(
     `${API_URL}/${projectId}/tickets`,
@@ -32,6 +42,7 @@ const deleteTicket = async (ticketId, projectId, token) => {
 }
 const ticketService = {
   getTickets,
+  getTicket,
   addTicket,
   deleteTicket,
 }

@@ -10,7 +10,6 @@ import Project from "./Pages/Project"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import CreateTicket from "./Pages/CreateTicket"
-import Footer from "./Components/Footer"
 import EditProject from "./Pages/EditProject"
 import Ticket from "./Pages/Ticket"
 
@@ -34,7 +33,6 @@ function App() {
           />
         </Routes>
       </Router>
-      {/* <Footer /> */}
       <ToastContainer />
     </>
   )

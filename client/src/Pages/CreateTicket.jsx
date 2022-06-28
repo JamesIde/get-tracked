@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { useState, useEffect } from "react"
-import { createTicket } from "../features/tickets/ticketSlice"
+import { createTicket, clearTicket } from "../features/tickets/ticketSlice"
 import { toast } from "react-toastify"
 import { useParams } from "react-router-dom"
-import { FaPencilAlt, FaProjectDiagram } from "react-icons/fa"
+import { FaPencilAlt } from "react-icons/fa"
 import { reset } from "../features/projects/projectSlice"
 import Spinner from "../Components/Spinner"
 function CreateTicket() {
@@ -14,7 +14,7 @@ function CreateTicket() {
 
   const projectId = useParams().projectId
 
-  const { Loading, Error, Message, Success } = useSelector(
+  const { ticket, Loading, Error, Message, Success } = useSelector(
     state => state.ticketReducer
   )
   const dispatch = useDispatch()
@@ -25,19 +25,26 @@ function CreateTicket() {
 
     if (!title || !description || !priority || priority === undefined) {
       toast.error("Please fill in all fields")
+    } else {
+      const ticketData = {
+        title,
+        description,
+        priority,
+      }
+      dispatch(createTicket(ticketData))
     }
-    const ticketData = {
-      title,
-      description,
-      priority,
-    }
-    dispatch(createTicket(ticketData))
-    navigate(`/projects/${projectId}`)
   }
 
-  if (Loading) {
-    return <Spinner />
-  }
+  useEffect(() => {
+    if (Error) {
+      toast.error(Message)
+    }
+    if (ticket) {
+      toast.success(Message)
+      navigate(`/projects/${projectId}`)
+      dispatch(clearTicket())
+    }
+  }, [Error, Message, ticket, dispatch, navigate, Success])
 
   return (
     <div>

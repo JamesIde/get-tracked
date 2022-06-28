@@ -13,6 +13,9 @@ function TicketItem({ ticket, projectId }) {
   const dispatch = useDispatch()
   const handleClick = ticketId => {
     dispatch(deleteTicket(ticketId))
+    setTimeout(() => {
+      dispatch(clearTicket())
+    }, 2000)
   }
 
   if (Loading) {

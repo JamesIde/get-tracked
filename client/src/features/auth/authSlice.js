@@ -43,6 +43,8 @@ export const registerUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk("auth/logout", async thunkAPI => {
   localStorage.removeItem("user")
+  localStorage.removeItem("ticket")
+  localStorage.removeItem("editProject")
 })
 
 const authSlice = createSlice({
@@ -106,7 +108,7 @@ const authSlice = createSlice({
       state.isLoading = false
       state.isError = false
       state.isSuccess = true
-      state.message = "Logout successful"
+      state.message = ""
     })
   },
 })

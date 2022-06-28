@@ -1,5 +1,5 @@
 import { FaSignInAlt } from "react-icons/fa"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { loginUser, reset } from "../features/auth/authSlice"
@@ -13,9 +13,23 @@ function Login() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const { isLoading, isError, isSuccess, message } = useSelector(
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
     state => state.authReducer
   )
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    // Redirect when logged in
+    // When success is true/user has something in it
+    if (user) {
+      navigate("/")
+      toast.success(message)
+    }
+    //Clear state
+    dispatch(reset())
+  }, [isError, isSuccess, user, message, navigate, dispatch])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -25,19 +39,10 @@ function Login() {
       password,
     }
     dispatch(loginUser(formData))
-    toast.success(message)
-
-    navigate("/")
-    setEmail("")
-    setPassword("")
   }
 
   if (isLoading) {
     return <Spinner />
-  }
-
-  if (isError) {
-    toast.error(message)
   }
 
   return (

@@ -88,7 +88,6 @@ const projectSlice = createSlice({
   initialState,
   reducers: {
     reset: state => {
-      state.projects = []
       state.project = []
       state.isLoading = false
       state.isError = false
@@ -134,13 +133,15 @@ const projectSlice = createSlice({
       state.isLoading = false
       state.isError = false
       state.isSuccess = true
+      state.project = action.payload.project
+      state.message = action.payload.msg
       state.projects = [...state.projects, action.payload.project]
     })
     builder.addCase(createProject.rejected, (state, action) => {
       state.isLoading = false
       state.isError = true
       state.isSuccess = false
-      state.message = action.payload
+      state.message = action.payload.msg
     })
     builder.addCase(deleteProject.pending, state => {
       state.isLoading = true

@@ -7,9 +7,8 @@ import { createProject, reset } from "../features/projects/projectSlice"
 import Spinner from "../Components/Spinner"
 
 function CreateProject() {
-  const { projects, isLoading, isError, message, isSuccess } = useSelector(
-    state => state.projectReducer
-  )
+  const { projects, project, isLoading, isError, message, isSuccess } =
+    useSelector(state => state.projectReducer)
 
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
@@ -19,25 +18,29 @@ function CreateProject() {
 
   const handleSubmit = e => {
     e.preventDefault()
-
-    // if (!name || !description) {
-    //   toast.error("Please fill in all fields")
-    // }
-    // if (name.trim().length < 5) {
-    //   toast.error("Project name must be at least 5 characters")
-    // }
-    // if (description.trim().length < 10) {
-    //   toast.error("Project description must be at least 10 characters")
-    // }
-    // Construct the project object
     const projectData = {
       name,
       description,
     }
     // send to slice
-    dispatch(createProject(projectData))
-    navigate("/projects")
+
+    if (name.length > 0 && description.length > 0) {
+      dispatch(createProject(projectData))
+    } else {
+      toast.error("Please fill out all fields")
+    }
   }
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    if (isSuccess) {
+      navigate("/projects")
+      toast.success(message)
+      dispatch(reset())
+    }
+  }, [dispatch, isError, message, navigate])
 
   return (
     <div>

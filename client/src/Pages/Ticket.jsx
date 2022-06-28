@@ -17,7 +17,7 @@ function Ticket() {
   useEffect(() => {
     dispatch(getSingleTicket(ticketId))
     dispatch(getComments(ticketId))
-  }, [dispatch])
+  }, [])
 
   const handleClick = () => {
     setComment("")

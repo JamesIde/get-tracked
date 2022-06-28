@@ -10,23 +10,28 @@ import { clearComments } from "../features/comments/commentSlice"
 
 import { FaPencilAlt } from "react-icons/fa"
 function Project() {
+  // Url params
+  const { projectId } = useParams()
+
+  // Get access to global state
   const { project, isLoading, isError, message } = useSelector(
     state => state.projectReducer
   )
-
   const { tickets, Loading, Error, Message } = useSelector(
     state => state.ticketReducer
   )
 
-  const { projectId } = useParams()
   const dispatch = useDispatch()
 
   useEffect(() => {
+    // Dispatch and set project to local storage
     dispatch(getSngProject(projectId))
     localStorage.setItem("editProject", JSON.stringify(project))
+    // Get tickets with that project
     dispatch(getTickets(projectId))
+    // Clear any tickets stuck in state
     dispatch(clearComments())
-  }, [])
+  }, [dispatch])
 
   if (isLoading) {
     return <Spinner />

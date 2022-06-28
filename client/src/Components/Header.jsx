@@ -1,24 +1,20 @@
 import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa"
 import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { logoutUser, reset } from "../features/auth/authSlice"
-import { toast } from "react-toastify"
-import Spinner from "./Spinner"
+import { useEffect } from "react"
 function Header() {
-  const { user, isLoading, isSuccess } = useSelector(state => state.authReducer)
-
+  const { user } = useSelector(state => state.authReducer)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const handleLogout = e => {
     dispatch(logoutUser())
-    // toast.success("Logged out successfully")
-    dispatch(reset())
-  }
-
-  if (isLoading) {
-    return <Spinner />
-  }
-  if (isSuccess) {
-    // dispatch(reset())
+    setTimeout(() => {
+      reset()
+    }, 2100)
+    navigate("/")
   }
 
   return (

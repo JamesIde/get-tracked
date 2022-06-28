@@ -18,8 +18,7 @@ const ticketSlice = createSlice({
   initialState,
   reducers: {
     clearTicket: state => {
-      state.tickets = []
-      state.ticket = []
+      state.ticket = null
       state.Loading = false
       state.Error = false
       state.Success = false
@@ -38,9 +37,9 @@ const ticketSlice = createSlice({
     })
     builders.addCase(getTickets.rejected, (state, action) => {
       state.Loading = false
-      state.Error = true
+      // state.Error = true
       state.Success = false
-      state.Message = action.payload
+      // state.Message = action.payload
     })
     builders.addCase(getSingleTicket.pending, state => {
       state.Loading = true
@@ -62,7 +61,8 @@ const ticketSlice = createSlice({
       state.Success = false
     })
     builders.addCase(createTicket.fulfilled, (state, action) => {
-      state.Message = action.payload
+      state.Message = action.payload.message
+      state.ticket = action.payload.ticket
       state.Loading = false
       state.Error = false
       state.Success = true
@@ -72,7 +72,7 @@ const ticketSlice = createSlice({
       state.Loading = false
       state.Error = true
       state.Success = false
-      state.Message = action.payload
+      state.Message = action.payload.ticket
     })
     builders.addCase(deleteTicket.pending, state => {
       state.Loading = true

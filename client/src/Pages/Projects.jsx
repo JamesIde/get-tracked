@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
-import { getProjects } from "../features/projects/projectSlice"
+import { getProjects, reset } from "../features/projects/projectSlice"
 import { Link } from "react-router-dom"
 import { FaPencilAlt } from "react-icons/fa"
 import Spinner from "../Components/Spinner"
@@ -19,6 +19,9 @@ function Projects() {
       dispatch(getProjects(user.token))
       dispatch(clearTicket())
       localStorage.removeItem("editProject")
+      setTimeout(() => {
+        dispatch(reset())
+      }, 2000)
     }
   }, [user, dispatch])
 

@@ -13,7 +13,14 @@ function ProjectItem({ project }) {
       )
     ) {
       dispatch(deleteProject(projectId))
+      setTimeout(() => {
+        dispatch(reset())
+      }, 1000)
     }
+  }
+
+  if (isLoading) {
+    return <Spinner />
   }
 
   // dispatch(deleteProject(projectId))

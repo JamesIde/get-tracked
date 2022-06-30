@@ -1,9 +1,9 @@
 import ticketService from "./ticketService"
+import CalcTicketPriority from "../../Components/Charts/CalcTicketPriority"
 
 const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit")
 
 const ticket = localStorage.getItem("ticket")
-
 const initialState = {
   tickets: [],
   ticket: ticket ? JSON.parse(ticket) : null,
@@ -11,6 +11,8 @@ const initialState = {
   Error: false,
   Success: false,
   Message: "",
+  ticketLoader: false,
+  ticketPriorityCount: [],
 }
 
 const ticketSlice = createSlice({
@@ -18,27 +20,43 @@ const ticketSlice = createSlice({
   initialState,
   reducers: {
     clearTicket: state => {
-      state.ticket = null
+      state.ticket = []
+      // state.tickets = []
       state.Loading = false
       state.Error = false
       state.Success = false
       state.Message = ""
     },
+    clearTickets: state => {
+      state.tickets = []
+      state.Loading = false
+      state.Error = false
+      state.Success = false
+      state.Message = ""
+    },
+    addTicketPriority: state => {
+      state.ticketPriorityCount = CalcTicketPriority(state.tickets)
+    },
   },
   extraReducers: builders => {
     builders.addCase(getTickets.pending, state => {
       state.Loading = true
+      state.ticketLoader = true
     })
     builders.addCase(getTickets.fulfilled, (state, action) => {
       state.tickets = action.payload
       state.Loading = false
       state.Error = false
       state.Success = true
+      state.ticketLoader = false
+      state.ticketPriorityCount = CalcTicketPriority(state.tickets)
     })
     builders.addCase(getTickets.rejected, (state, action) => {
       state.Loading = false
       // state.Error = true
       state.Success = false
+      state.ticketLoader = false
+
       // state.Message = action.payload
     })
     builders.addCase(getSingleTicket.pending, state => {
@@ -160,5 +178,6 @@ export const deleteTicket = createAsyncThunk(
   }
 )
 
-export const { clearTicket } = ticketSlice.actions
+export const { clearTicket, clearTickets, addTicketPriority } =
+  ticketSlice.actions
 export default ticketSlice.reducer

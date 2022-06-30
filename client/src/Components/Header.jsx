@@ -24,7 +24,7 @@ function Header() {
           <div className="flex-1">
             <div className="flex items-center">
               <Link to="/">
-                <h1 className="text-2xl hover:text-gray-900">
+                <h1 className="text-2xl hover:text-gray-900 p-2">
                   Project Manager
                 </h1>
               </Link>
@@ -32,8 +32,8 @@ function Header() {
           </div>
           <div className="flex">
             {user ? (
-              <div className="flex">
-                <h1>
+              <div className="flex xl:flex-row lg:flex-row md:flex-row flex-col">
+                <h1 className="p-2">
                   Welcome, <strong> {user.name}</strong>
                 </h1>
                 <Link to="/">
@@ -42,14 +42,17 @@ function Header() {
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt />
-                    <h1 className="px-2 text-xl">Signout</h1>
+                    <h1 className="p-2 text-lg">Signout</h1>
                   </button>
                 </Link>
               </div>
             ) : (
-              <>
+              <div className="flex-row">
                 <Link to="/login">
-                  <button type="submit" class="flex items-center ml-2 mr-2">
+                  <button
+                    type="submit"
+                    class="flex items-center ml-2 mr-2 flex-row"
+                  >
                     <FaSignInAlt />
                     <h1 className="px-2  text-xl">Login</h1>
                   </button>
@@ -60,7 +63,7 @@ function Header() {
                     <h1 className="px-2 text-xl">Register</h1>
                   </button>
                 </Link>
-              </>
+              </div>
             )}
           </div>
         </div>

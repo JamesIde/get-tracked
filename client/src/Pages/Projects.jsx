@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { FaPencilAlt } from "react-icons/fa"
 import Spinner from "../Components/Spinner"
 import ProjectItem from "../Components/ProjectItem"
-import { clearTicket } from "../features/tickets/ticketSlice"
+import { clearTickets } from "../features/tickets/ticketSlice"
 
 function Projects() {
   const dispatch = useDispatch()
@@ -17,11 +17,11 @@ function Projects() {
   useEffect(() => {
     if (user) {
       dispatch(getProjects(user.token))
-      dispatch(clearTicket())
+      dispatch(clearTickets())
       localStorage.removeItem("editProject")
       setTimeout(() => {
         dispatch(reset())
-      }, 2000)
+      }, 1000)
     }
   }, [user, dispatch])
 
@@ -30,13 +30,13 @@ function Projects() {
   }
 
   return (
-    <div className="mx-auto h-24 w-8/12 mt-5">
+    <div className="mx-auto h-full xl:w-8/12 lg:w-8/12 md:w-8/12 mt-5 p-1">
       {projects.length > 0 ? (
         <>
           <h1 className="font-bold text-3xl mt-5 mb-5 text-center">
             Your current projects
           </h1>
-          <div className="mx-auto xl:w-3/4">
+          <div className="mx-auto xl:w-3/4 w-full p-1 py-2">
             {projects.map(project => {
               return <ProjectItem key={project._id} project={project} />
             })}

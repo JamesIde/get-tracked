@@ -1,44 +1,85 @@
 import TicketItem from "../Components/TicketItem"
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { getSngProject } from "../features/projects/projectSlice"
-import { getTickets } from "../features/tickets/ticketSlice"
+import {
+  getTickets,
+  clearTicket,
+  addTicketPriority,
+} from "../features/tickets/ticketSlice"
 import Spinner from "../Components/Spinner"
 import { clearComments } from "../features/comments/commentSlice"
-
 import { FaPencilAlt } from "react-icons/fa"
+import PieChart from "../Components/Charts/PieChart"
+import CalcTicketPriority from "../Components/Charts/CalcTicketPriority"
+
 function Project() {
   // Url params
   const { projectId } = useParams()
+  const dispatch = useDispatch()
 
+  const [ticketData, setTicketData] = useState()
+  const [copyTicketData, setCopyTicketData] = useState()
   // Get access to global state
   const { project, isLoading, isError, message } = useSelector(
     state => state.projectReducer
   )
-  const { tickets, Loading, Error, Message } = useSelector(
-    state => state.ticketReducer
-  )
-
-  const dispatch = useDispatch()
+  const {
+    tickets,
+    Loading,
+    Error,
+    Message,
+    ticketLoader,
+    ticketPriorityCount,
+  } = useSelector(state => state.ticketReducer)
 
   useEffect(() => {
     // Dispatch and set project to local storage
     dispatch(getSngProject(projectId))
     localStorage.setItem("editProject", JSON.stringify(project))
+
     // Get tickets with that project
     dispatch(getTickets(projectId))
+    localStorage.setItem("tickets", JSON.stringify(ticketPriorityCount))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     // Clear any tickets stuck in state
+    dispatch(addTicketPriority())
+    setTicketData({
+      labels: ticketPriorityCount.map(ticket => ticket.name),
+      datasets: [
+        {
+          label: "Tickets by priority",
+          data: ticketPriorityCount.map(ticket => ticket.count),
+          backgroundColor: [
+            "rgba(75,192,192,1)",
+            "#ecf0f1",
+            "#50AF95",
+            "#f3ba2f",
+            "#2a71d0",
+          ],
+          borderColor: "black",
+          borderWidth: 2,
+        },
+      ],
+    })
     dispatch(clearComments())
+    dispatch(clearTicket())
   }, [dispatch])
 
   if (isLoading) {
     return <Spinner />
   }
 
+  const checkTicketLoad = () => {
+    const ticketGraph = JSON.parse(localStorage.getItem("tickets"))
+  }
+
   return (
-    <div className="xl:w-6/12 lg:w-10/12 md:w-10/12 mx-auto">
+    <div className="xl:w-5/12 lg:w-10/12 md:w-10/12  p-1">
+      <PieChart chartData={ticketData} />
+
       <h1 className="font-bold text-3xl text-center mt-5 mb-2">
         Project Name: {project.name}
       </h1>

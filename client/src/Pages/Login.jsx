@@ -25,10 +25,10 @@ function Login() {
     // When success is true/user has something in it
     if (user) {
       navigate("/")
-      toast.success(message)
+      toast.success("Login successful")
+      //Clear state
+      // dispatch(reset())
     }
-    //Clear state
-    dispatch(reset())
   }, [isError, isSuccess, user, message, navigate, dispatch])
 
   const handleSubmit = async e => {

@@ -25,11 +25,21 @@ function ProjectItem({ project }) {
 
   // dispatch(deleteProject(projectId))
   return (
-    <div className="flex flex-col justify-between md:flex-row  border-2 mt-2">
-      <h1 className="w-1/6">{project.name}</h1>
-      <p className="w-2/5">{project.description}</p>
-      <p>{new Date(project.createdAt).toLocaleDateString("en-AU")}</p>
-      <div className="flex flex-row">
+    <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4 border-2 mb-2 rounded p-2">
+      <div>
+        <h1 className="font-bold">{project.name}</h1>
+      </div>
+      <div>
+        <p>{project.description}</p>
+      </div>
+      <div className="xl:text-center lg:text-center md:text-center text-left">
+        <p>
+          <p className="font-bold">
+            {new Date(project.createdAt).toLocaleDateString("en-AU")}
+          </p>{" "}
+        </p>
+      </div>
+      <div className="flex flex-row justify-center">
         <Link to={`/projects/${project._id}`}>
           <button class="bg-blue-500 hover:bg-blue-700 duration-500 text-white font-bold p-2 rounded m-1">
             View Project

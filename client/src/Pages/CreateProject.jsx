@@ -26,6 +26,9 @@ function CreateProject() {
 
     if (name.length > 0 && description.length > 0) {
       dispatch(createProject(projectData))
+      navigate("/projects")
+      toast.success("Project created!")
+      dispatch(reset())
     } else {
       toast.error("Please fill out all fields")
     }
@@ -34,11 +37,6 @@ function CreateProject() {
   useEffect(() => {
     if (isError) {
       toast.error(message)
-    }
-    if (isSuccess) {
-      navigate("/projects")
-      toast.success(message)
-      dispatch(reset())
     }
   }, [dispatch, isError, message, navigate])
 

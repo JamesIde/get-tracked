@@ -32,17 +32,15 @@ function CreateTicket() {
         priority,
       }
       dispatch(createTicket(ticketData))
+      toast.success("Ticket created")
+      navigate(`/projects/${projectId}`)
     }
   }
 
   useEffect(() => {
+    clearTicket()
     if (Error) {
       toast.error(Message)
-    }
-    if (ticket) {
-      toast.success(Message)
-      navigate(`/projects/${projectId}`)
-      dispatch(clearTicket())
     }
   }, [Error, Message, ticket, dispatch, navigate, Success])
 

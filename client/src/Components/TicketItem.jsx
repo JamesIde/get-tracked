@@ -7,6 +7,7 @@ import {
 } from "../features/tickets/ticketSlice"
 import { Link } from "react-router-dom"
 import Spinner from "../Components/Spinner"
+import { toast } from "react-toastify"
 
 function TicketItem({ ticket, projectId }) {
   const { Loading, Success } = useSelector(state => state.ticketReducer)
@@ -15,7 +16,7 @@ function TicketItem({ ticket, projectId }) {
     dispatch(deleteTicket(ticketId))
     setTimeout(() => {
       dispatch(clearTicket())
-    }, 2000)
+    }, 1000)
   }
 
   if (Loading) {
@@ -36,7 +37,7 @@ function TicketItem({ ticket, projectId }) {
           <p>Status: {ticket.status}</p>
         </div>
       </div>
-      <div className="flex justify-between m-1">
+      <div className="flex xl:justify-between md:justify-between justify-evenly m-1">
         <Link to={`ticket/${ticket._id}`}>
           <button class="bg-gray-400 hover:bg-gray-600 duration-500 p-1 px-2 font-bold rounded inline-flex items-center ">
             <FaPencilAlt size={15} className="pt-1 mb-1 mr-1" />

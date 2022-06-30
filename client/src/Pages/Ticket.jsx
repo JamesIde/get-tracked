@@ -5,7 +5,7 @@ import { getSingleTicket } from "../features/tickets/ticketSlice"
 import { getComments, createComment } from "../features/comments/commentSlice"
 import Spinner from "../Components/Spinner"
 import { Link } from "react-router-dom"
-import commentService from "../features/comments/commentService"
+import { toast } from "react-toastify"
 function Ticket() {
   const ticketId = useParams().ticketId
   const dispatch = useDispatch()
@@ -17,7 +17,7 @@ function Ticket() {
   useEffect(() => {
     dispatch(getSingleTicket(ticketId))
     dispatch(getComments(ticketId))
-  }, [])
+  }, [dispatch])
 
   const handleClick = () => {
     setComment("")
@@ -25,7 +25,7 @@ function Ticket() {
 
   const handleCreateClick = () => {
     if (comment === "" || comment === undefined) {
-      alert("Please enter a comment")
+      toast.error("Please enter a comment")
     } else {
       dispatch(createComment(comment))
       handleClick()
@@ -37,42 +37,44 @@ function Ticket() {
   }
 
   return (
-    <div className="xl:w-6/12 lg:w-10/12 md:w-10/12 mx-auto">
-      <h1 className="font-bold text-3xl text-center mt-5 mb-2">
-        Ticket Id: {ticket._id}
+    <div className="xl:w-6/12 lg:w-10/12 md:w-10/12 mx-auto p-1">
+      <h1 className="font-bold xl:text-3xl md:text-3xl text-xl text-center mt-5 mb-2">
+        Ticket: {ticket.title}
       </h1>
-      <div className="grid grid-cols-4 gap-8 p-2 py-8 border-t-[1px] border-b-[1px] border-black mt-5">
-        <div className="w-full">
+      <div className="grid grid-cols-2 grid-flow-row gap-2 md:grid-cols-2 lg:grid-cols-4 px-1 ">
+        <div className="w-full ">
           <div>
-            <h5 className="text-xl font-bold mb-4">Project</h5>
+            <h5 className="text-xl font-bold xl:mb-4 md:mb-4 mb-1">Project</h5>
           </div>
           {project.name}
         </div>
         <div>
           <div>
-            <h5 className="text-xl font-bold mb-4">Priority</h5>
+            <h5 className="text-xl font-bold xl:mb-4 md:mb-4 mb-1">Priority</h5>
           </div>
           {ticket.priority}
         </div>
         <div>
           <div>
-            <h5 className="text-xl font-bold mb-4">Status</h5>
+            <h5 className="text-xl font-bold xl:mb-4 md:mb-4 mb-1">Status</h5>
           </div>
           {ticket.status}
         </div>
         <div>
           <div>
-            <h5 className="text-xl font-bold mb-4">Created At</h5>
+            <h5 className="text-xl font-bold xl:mb-4 md:mb-4 mb-1">
+              Created At
+            </h5>
           </div>
           {new Date(ticket.createdAt).toLocaleString("en-AU")}
         </div>
       </div>
-      <div className="flex flex-row justify-between">
-        <div>
+      <div className="flex flex-col justify-between">
+        <div className="p-1">
           <h5 className="text-xl font-bold mb-4 mt-5">Description</h5>
           <p>{ticket.description}</p>
         </div>
-        <div>
+        <div className="xl:text-right md:text-right text-center">
           <Link to={`/projects/${project._id}`}>
             <button class="bg-gray-100 border-2 font-bold p-1 mb-4 mt-5 rounded inline-flex items-center hover:bg-gray-300 duration-500">
               <span>Back to Project</span>
@@ -86,7 +88,7 @@ function Ticket() {
           <textarea
             name="content"
             id="content"
-            cols="50"
+            cols="45"
             rows="5"
             className="border-2 rounded p-1"
             value={comment}
@@ -116,8 +118,8 @@ function Ticket() {
               {comments.map(comment => {
                 return (
                   <>
-                    <div>
-                      <div className="xl: w-2/4">
+                    <div className="mb-2">
+                      <div className="xl: xl:w-2/4 md:w-2/4 w-full">
                         <p className="text-md font-bold">{comment.userEmail}</p>
                         <p className="text-sm text-gray-500 mt-1 mb-4">
                           {new Date(comment.createdAt).toLocaleString("en-AU")}

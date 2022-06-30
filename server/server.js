@@ -1,3 +1,4 @@
+const path = require("path")
 const express = require("express")
 const dotenv = require("dotenv").config()
 const colors = require("colors")
@@ -14,13 +15,23 @@ app.use(express.urlencoded({ extended: true }))
 // Connect to database
 dbConnect()
 
-//Basic welcome route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome" })
-})
 // /api/users/routesInUserRoutes same with projectRoutes
 app.use("/api/users", require("./routes/userRoutes"))
 app.use("/api/projects", require("./routes/projectRoutes"))
+
+// Serve frontend
+if (process.env.NODE_ENV === "production") {
+  // Set build folder as static folder
+  app.use(express.static(path.join(__dirname, "../client/build")))
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"))
+  })
+} else {
+  //Basic welcome route
+  app.get("/", (req, res) => {
+    res.json({ message: "Enter the universe..." })
+  })
+}
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`.cyan.underline)

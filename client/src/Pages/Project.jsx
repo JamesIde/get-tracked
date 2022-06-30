@@ -46,24 +46,7 @@ function Project() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // Clear any tickets stuck in state
     dispatch(addTicketPriority())
-    setTicketData({
-      labels: ticketPriorityCount.map(ticket => ticket.name),
-      datasets: [
-        {
-          label: "Tickets by priority",
-          data: ticketPriorityCount.map(ticket => ticket.count),
-          backgroundColor: [
-            "rgba(75,192,192,1)",
-            "#ecf0f1",
-            "#50AF95",
-            "#f3ba2f",
-            "#2a71d0",
-          ],
-          borderColor: "black",
-          borderWidth: 2,
-        },
-      ],
-    })
+
     dispatch(clearComments())
     dispatch(clearTicket())
   }, [dispatch])
@@ -77,8 +60,8 @@ function Project() {
   }
 
   return (
-    <div className="xl:w-5/12 lg:w-10/12 md:w-10/12  p-1">
-      <PieChart chartData={ticketData} />
+    <div className="xl:w-5/12 lg:w-10/12 md:w-10/12 mx-auto p-1">
+      {/* <PieChart chartData={ticketData} /> */}
 
       <h1 className="font-bold text-3xl text-center mt-5 mb-2">
         Project Name: {project.name}

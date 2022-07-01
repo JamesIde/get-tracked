@@ -41,7 +41,7 @@ function Ticket() {
       <h1 className="font-bold xl:text-3xl md:text-3xl text-xl text-center mt-5 mb-2">
         Ticket: {ticket.title}
       </h1>
-      <div className="grid grid-cols-2 grid-flow-row gap-2 md:grid-cols-2 lg:grid-cols-4 px-1 ">
+      <div className="grid grid-cols-2 grid-flow-row gap-2 md:grid-cols-2 lg:grid-cols-4 px-1 mx-auto">
         <div className="w-full ">
           <div>
             <h5 className="text-xl font-bold xl:mb-4 md:mb-4 mb-1">Project</h5>
@@ -88,7 +88,7 @@ function Ticket() {
           <textarea
             name="content"
             id="content"
-            cols="45"
+            cols="25"
             rows="5"
             className="border-2 rounded p-1"
             value={comment}
@@ -119,7 +119,7 @@ function Ticket() {
                 return (
                   <>
                     <div className="mb-2">
-                      <div className="xl: xl:w-2/4 md:w-2/4 w-full">
+                      <div className="xl: xl:w-2/4 md:w-2/4">
                         <p className="text-md font-bold">{comment.userEmail}</p>
                         <p className="text-sm text-gray-500 mt-1 mb-4">
                           {new Date(comment.createdAt).toLocaleString("en-AU")}

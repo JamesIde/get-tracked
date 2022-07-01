@@ -30,19 +30,19 @@ function Header() {
               </Link>
             </div>
           </div>
-          <div className="flex">
+          <div>
             {user ? (
-              <div className="flex xl:flex-row lg:flex-row md:flex-row flex-col">
-                <h1 className="p-2">
+              <div className="">
+                <h1 className="mt-4 mr-4">
                   Welcome, <strong> {user.name}</strong>
                 </h1>
                 <Link to="/">
                   <button
-                    class="flex items-center ml-2 mr-2"
+                    class="flex items-center ml-2 mr-2 "
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt />
-                    <h1 className="p-2 text-lg">Signout</h1>
+                    <h1 className="pl-2 text-lg">Signout</h1>
                   </button>
                 </Link>
               </div>

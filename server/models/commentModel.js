@@ -1,7 +1,4 @@
 const mongoose = require("mongoose")
-const User = require("./userModel")
-const Ticket = require("./ticketModel")
-const Project = require("./projectModel")
 
 const Comment = mongoose.Schema(
   {

@@ -13,7 +13,13 @@ function TicketItem({ ticket, projectId }) {
   const { Loading, Success } = useSelector(state => state.ticketReducer)
   const dispatch = useDispatch()
   const handleClick = ticketId => {
-    dispatch(deleteTicket(ticketId))
+    if (
+      window.confirm(
+        "Are you sure you want to delete the ticket? This will delete all comments too"
+      )
+    ) {
+      dispatch(deleteTicket(ticketId))
+    }
     setTimeout(() => {
       dispatch(clearTicket())
     }, 1000)
@@ -27,7 +33,7 @@ function TicketItem({ ticket, projectId }) {
     <div className="border-[1px] border-gray-400 rounded bg-gray-50 mt-2 mb-1 mx-1">
       <div className="flex flex-row justify-between m-1">
         <h1 className="font-bold text-lg mb-1">{ticket.title}</h1>
-        <p className="m-1">
+        <p className="m-1 text-center">
           {new Date(ticket.createdAt).toLocaleString("en-AU")}
         </p>
       </div>
@@ -37,19 +43,19 @@ function TicketItem({ ticket, projectId }) {
           <p>Status: {ticket.status}</p>
         </div>
       </div>
-      <div className="flex xl:justify-between md:justify-between justify-evenly m-1">
+      <div className="flex xl:justify-between md:justify-between justify-between m-1">
         <Link to={`ticket/${ticket._id}`}>
-          <button class="bg-gray-400 hover:bg-gray-600 duration-500 p-1 px-2 font-bold rounded inline-flex items-center ">
+          <button class="bg-blue-500 hover:bg-blue-900 duration-500 p-1 px-2 font-bold rounded inline-flex items-center text-white">
             <FaPencilAlt size={15} className="pt-1 mb-1 mr-1" />
-            <span>View Ticket</span>
+            <span>View</span>
           </button>
         </Link>
         <button
-          class="bg-red-600 p-1 px-2 font-bold rounded inline-flex items-center hover:bg-red-900 duration-500"
+          class="bg-red-600 p-1 px-2 font-bold rounded inline-flex items-center hover:bg-red-900 duration-500 text-white"
           onClick={() => handleClick(ticket._id)}
         >
           <FaTrashAlt size={15} className="pt-1 mb-1" />
-          <span>Delete Ticket</span>
+          <span>Delete</span>
         </button>
       </div>
     </div>

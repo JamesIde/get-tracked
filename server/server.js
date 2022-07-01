@@ -21,11 +21,12 @@ app.use("/api/projects", require("./routes/projectRoutes"))
 
 // Serve frontend
 if (process.env.NODE_ENV === "production") {
-  // Set build folder as static folder
+  // Set build folder
   app.use(express.static(path.join(__dirname, "../client/build")))
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"))
-  })
+
+  app.get("*", (req, res) =>
+    res.sendFile(__dirname, "../", "client", "build", "index.html")
+  )
 } else {
   //Basic welcome route
   app.get("/", (req, res) => {

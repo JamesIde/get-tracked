@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom"
 import { FaSignInAlt } from "react-icons/fa"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { loginUser, reset } from "../features/auth/authSlice"
+import { loginUser } from "../features/auth/authSlice"
 import { toast } from "react-toastify"
-// Language: javascript
 import Spinner from "../Components/Spinner"
+
 function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -91,6 +92,12 @@ function Login() {
               <button className="w-full bg-black text-white rounded p-2 mt-4">
                 <p className="text-xl">Login</p>
               </button>
+              <p className="text-center p-4">Or create an account</p>
+              <Link to="/register">
+                <button className="w-full bg-white text-black rounded p-2 border-2 border-black">
+                  <p className="text-xl">Register</p>
+                </button>
+              </Link>
             </form>
           </div>
         </div>

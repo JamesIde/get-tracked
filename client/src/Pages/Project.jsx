@@ -12,16 +12,12 @@ import {
 import Spinner from "../Components/Spinner"
 import { clearComments } from "../features/comments/commentSlice"
 import { FaPencilAlt } from "react-icons/fa"
-import PieChart from "../Components/Charts/PieChart"
-import CalcTicketPriority from "../Components/Charts/CalcTicketPriority"
 
 function Project() {
   // Url params
   const { projectId } = useParams()
   const dispatch = useDispatch()
 
-  const [ticketData, setTicketData] = useState()
-  const [copyTicketData, setCopyTicketData] = useState()
   // Get access to global state
   const { project, isLoading, isError, message } = useSelector(
     state => state.projectReducer
@@ -55,19 +51,14 @@ function Project() {
     return <Spinner />
   }
 
-  const checkTicketLoad = () => {
-    const ticketGraph = JSON.parse(localStorage.getItem("tickets"))
-  }
-
   return (
     <div className="xl:w-5/12 lg:w-10/12 md:w-10/12 mx-auto p-1">
       {/* <PieChart chartData={ticketData} /> */}
-
       <h1 className="font-bold text-3xl text-center mt-5 mb-2">
         Project Name: {project.name}
       </h1>
       <p className="mt-1 mb-2 text-center"> Project ID: {project._id}</p>
-      <hr />
+      <hr className="mb-2" />
       <div className="flex flex-row justify-between">
         {project.status === "In Progress" ? (
           <p className="mt-1 mb-5 p-1 rounded bg-green-300 text-black font-bold">

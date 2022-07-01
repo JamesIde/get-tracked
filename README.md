@@ -1,6 +1,6 @@
 # Project Manager and Bug Tracker
 
-View it [here](https://project-manager-bug-tracker.herokuapp.com/)
+View it [here](https://get-tracked.herokuapp.com/)
 
 A fullstack application that allows users to create projects, and manage them through adding tickets and comments.
 

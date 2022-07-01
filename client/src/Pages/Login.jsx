@@ -57,8 +57,13 @@ function Login() {
           <p className="text-2xl font-bold text-gray-400">
             Please enter your credentials
           </p>
+          <div className="mt-2 bg-blue-200 rounded w-max mx-auto p-1 border-[1px] border-blue-500 text-sm">
+            <p>Demo details</p>
+            <p>test@gmail.com</p>
+            <p>123</p>
+          </div>
         </div>
-        <div className="w-8/12 mx-auto mt-12">
+        <div className="w-8/12 mx-auto">
           <div className="form-group">
             <form onSubmit={handleSubmit}>
               <div className="form-group-item">

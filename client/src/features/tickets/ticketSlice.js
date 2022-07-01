@@ -12,7 +12,7 @@ const initialState = {
   Success: false,
   Message: "",
   ticketLoader: false,
-  ticketPriorityCount: [],
+  ticketPriorityCount: null,
 }
 
 const ticketSlice = createSlice({

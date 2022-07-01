@@ -100,6 +100,7 @@ const ticketSlice = createSlice({
       state.Loading = false
       state.Error = false
       state.Success = true
+      // Create a new array without the deleted ticket
       state.tickets = state.tickets.filter(
         ticket => ticket._id !== action.payload.ticketId
       )

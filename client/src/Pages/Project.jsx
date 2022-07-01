@@ -51,7 +51,7 @@ function Project() {
     dispatch(clearTicket())
   }, [dispatch])
 
-  if (isLoading) {
+  if (isLoading || Loading) {
     return <Spinner />
   }
 

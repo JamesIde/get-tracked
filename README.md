@@ -4,7 +4,7 @@ View it [here](https://get-tracked.herokuapp.com/)
 
 A fullstack application that allows users to create projects, and manage them through adding tickets and comments.
 
-Technologies used:
+Developed with:
 
 - React
 - Redux

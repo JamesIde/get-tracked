@@ -9,6 +9,8 @@ const dbConnect = require("./config/db")
 
 //Allow us to send json to and from
 // Allow us to send stuff in request bodies
+app.use(cors({ origin: "*" }))
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -33,11 +35,7 @@ if (process.env.NODE_ENV === "production") {
     res.json({ message: "Enter the universe..." })
   })
 }
-app.use(
-  cors({
-    origin: "*",
-  })
-)
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`.cyan.underline)
 })

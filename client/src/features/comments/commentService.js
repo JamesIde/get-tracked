@@ -1,12 +1,10 @@
-const axios = require("axios")
-
-const API_URL = "/api/projects"
+import { API } from "../../helper/API"
 
 const getAllComments = async (ticketId, projectId, token) => {
   // call backend
 
-  const response = await axios.get(
-    `${API_URL}/${projectId}/tickets/${ticketId}/comments`,
+  const response = await API.get(
+    `/api/projects/${projectId}/tickets/${ticketId}/comments`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -18,8 +16,8 @@ const getAllComments = async (ticketId, projectId, token) => {
 
 const createComment = async (ticketId, projectId, comment, token) => {
   // call backend
-  const response = await axios.post(
-    `${API_URL}/${projectId}/tickets/${ticketId}/comments/create`,
+  const response = await API.post(
+    `/api/projects/${projectId}/tickets/${ticketId}/comments/create`,
     {
       content: comment,
     },

@@ -1,37 +1,35 @@
-import axios from "axios"
-
-const API_URL = "/api/projects"
+import { API } from "../../helper/API"
 
 const getProjects = async token => {
-  const response = await axios.get(API_URL, {
+  const response = await API.get("/api/projects", {
     headers: { Authorization: `Bearer ${token}` },
   })
   return response
 }
 
 const getSingleProject = async (projectId, token) => {
-  const response = await axios.get(`${API_URL}/${projectId}`, {
+  const response = await API.get(`/api/projects/${projectId}`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   return response
 }
 
 const createProject = async (projectData, token) => {
-  const response = await axios.post(API_URL, projectData, {
+  const response = await API.post("/api/projects", projectData, {
     headers: { Authorization: `Bearer ${token}` },
   })
   return response
 }
 
 const deleteProject = async (projectId, token) => {
-  const response = await axios.delete(`${API_URL}/${projectId}`, {
+  const response = await API.delete(`/api/projects/${projectId}`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   return response
 }
 
 const updateProject = async (projectId, projectData, token) => {
-  const response = await axios.put(`${API_URL}/${projectId}`, projectData, {
+  const response = await API.put(`/api/projects/${projectId}`, projectData, {
     headers: { Authorization: `Bearer ${token}` },
   })
   return response

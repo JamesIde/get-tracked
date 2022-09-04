@@ -65,6 +65,7 @@ function EditProject() {
     <div className="xl:w-6/12 lg:w-10/12 md:w-10/12 mx-auto">
       <h1 className="font-bold text-3xl text-center mt-5 mb-2">
         Edit: {project.name}
+        {/* TODO fix this */}
       </h1>
       <hr />
       <div className="w-8/12 mx-auto mt-12">

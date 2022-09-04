@@ -1,18 +1,15 @@
-// Backend call
-import axios from "axios"
-
-const API_URL = "/api/projects"
+import { API } from "../../helper/API"
 
 const getTickets = async (projectId, token) => {
-  const response = await axios.get(`${API_URL}/${projectId}/tickets`, {
+  const response = await API.get(`/api/projects/${projectId}/tickets`, {
     headers: { Authorization: `Bearer ${token}` },
   })
   return response
 }
 
 const getTicket = async (ticketId, projectId, token) => {
-  const response = await axios.get(
-    `${API_URL}/${projectId}/tickets/${ticketId}`,
+  const response = await API.get(
+    `/api/projects/${projectId}/tickets/${ticketId}`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }
@@ -21,8 +18,8 @@ const getTicket = async (ticketId, projectId, token) => {
 }
 
 const addTicket = async (ticketData, projectId, token) => {
-  const response = await axios.post(
-    `${API_URL}/${projectId}/tickets`,
+  const response = await API.post(
+    `/api/projects/${projectId}/tickets`,
     ticketData,
     {
       headers: { Authorization: `Bearer ${token}` },
@@ -32,8 +29,8 @@ const addTicket = async (ticketData, projectId, token) => {
 }
 
 const deleteTicket = async (ticketId, projectId, token) => {
-  const response = await axios.delete(
-    `${API_URL}/${projectId}/tickets/${ticketId}`,
+  const response = await API.delete(
+    `/api/projects/${projectId}/tickets/${ticketId}`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }

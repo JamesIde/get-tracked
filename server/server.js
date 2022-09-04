@@ -4,7 +4,7 @@ const dotenv = require("dotenv").config()
 const colors = require("colors")
 const app = express()
 const PORT = process.env.PORT
-
+const cors = require("cors")
 const dbConnect = require("./config/db")
 
 //Allow us to send json to and from
@@ -33,7 +33,11 @@ if (process.env.NODE_ENV === "production") {
     res.json({ message: "Enter the universe..." })
   })
 }
-
+app.use(
+  cors({
+    origin: "*",
+  })
+)
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`.cyan.underline)
 })
